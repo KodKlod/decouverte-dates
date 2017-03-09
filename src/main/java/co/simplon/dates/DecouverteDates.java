@@ -1,7 +1,10 @@
 package co.simplon.dates;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DecouverteDates {
 
@@ -10,33 +13,48 @@ public class DecouverteDates {
 	}
 
 	public boolean estInferieurDateCourante(Date date) throws ParseException {
-		// TODO
-		throw new RuntimeException("à implémenter");
+		Date dateCourante = new Date();
+		long diffDates = dateCourante.getTime()-date.getTime();
+		if (diffDates>0){
+			return true;
+		}
+		return false;
 	}
 
-	public Date construireDate(String chaineFournie) {
-		// TODO
-		throw new RuntimeException("à implémenter");
+	public Date construireDate(String chaineFournie) throws ParseException {
+		chaineFournie = chaineFournie + " 00:00";
+		SimpleDateFormat formater = 
+				new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		formater.setLenient(false);
+		Date dateConstruite = formater.parse(chaineFournie);
+		return dateConstruite;
 	}
 
 	public Date augmenterDate(Date dateInitiale, int nombreJours,
-			int nombreHeures, int nombreMinutes) {
-		// TODO
-		throw new RuntimeException("à implémenter");
+			int nombreHeures, int nombreMinutes) {		
+		Calendar modifierDate = Calendar.getInstance();
+		modifierDate.setTime(dateInitiale);
+		modifierDate.add(Calendar.DAY_OF_MONTH, nombreJours);
+		modifierDate.add(Calendar.HOUR, nombreHeures);
+		modifierDate.add(Calendar.MINUTE, nombreMinutes);
+		return modifierDate.getTime();
 	}
 
 	public String formaterUneDate(Date date) {
-		// TODO
-		return "";
+		SimpleDateFormat formaterDate =
+				new SimpleDateFormat("dd_MM_YYYY");
+		return formaterDate.format(date);
 	}
 
 	public String formaterUneHeure(Date time) {
-		// TODO
-		return "";
+		SimpleDateFormat formaterHeure = 
+				new SimpleDateFormat("kk'h'mm'min'ss'sec'");
+		return formaterHeure.format(time);
 	}
 	
 	public String formaterDateEnFrancais(Date date) {
-		// TODO
-		return "";
+		SimpleDateFormat formaterDateFr = 
+				new SimpleDateFormat("EEEE dd MMMM yyyy",Locale.FRENCH);
+		return formaterDateFr.format(date);
 	}
 }
